@@ -24,6 +24,7 @@ class ViewController: UIViewController {
     let imageArray = NSArray(objects: "fox", "falco")
     var currentImageNum = 0
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -31,6 +32,12 @@ class ViewController: UIViewController {
         let label = UILabel(frame: CGRect(x: 150, y: 35, width: 150, height: 15))
         label.text = "Whats Good?!"
         self.view.addSubview(label)
+        
+        //Instantiate gestures
+        
+        let rotateGesture = UIRotationGestureRecognizer(target: self, action: #selector(ViewController.handleRotate(sender:)))
+        
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(ViewController.handlePinch(sender:)))
         
         let swipeGestureLeft = UISwipeGestureRecognizer(target: self, action: #selector(ViewController.handleSwipeLeft(sender:)))
         let swipeGestureRight = UISwipeGestureRecognizer(target: self, action: #selector(ViewController.handleSwipeRight(sender:)))
@@ -40,6 +47,9 @@ class ViewController: UIViewController {
         
         self.view.addGestureRecognizer(swipeGestureLeft)
         self.view.addGestureRecognizer(swipeGestureRight)
+        self.imageView.addGestureRecognizer(pinchGesture)
+        self.imageView.addGestureRecognizer(rotateGesture)
+
         
         self.createImageView()
         self.createCalc()
@@ -108,6 +118,39 @@ class ViewController: UIViewController {
     }
     
     //Handle Gestures
+    
+//    IBAction func handlePinch(recognizer : UIPinchGestureRecognizer) {
+//        if let view = recognizer.view {
+//            view.transform = CGAffineTransformScale(view.transform,
+//                                                    recognizer.scale, recognizer.scale)
+//            recognizer.scale = 1
+//        }
+    
+    func handleRotate(sender: UIRotationGestureRecognizer){
+        
+        //sender.view!.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+            //CGAffineTransformRotate(sender.view!.transform, sender.rotation)
+        //sender.rotation = 0
+        
+        let rotate = CGAffineTransform(rotationAngle: 1.0)
+        let stretchAndRotate = rotate.scaledBy(x: 0.8, y: 0.8)
+        
+        sender.view!.transform = stretchAndRotate
+        
+        sender.rotation = 0
+    }
+    
+    
+    func handlePinch(sender: UIPinchGestureRecognizer){
+        
+        if let view = sender.view{
+            
+            view.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
+        }
+        
+        sender.scale = 1
+    }
+    
     func handleTap(sender: UIPanGestureRecognizer){
         sender.view?.center = sender.location(in: sender.view?.superview)
     }
@@ -144,6 +187,9 @@ class ViewController: UIViewController {
         self.imageView.image = UIImage(named:self.imageArray[self.currentImageNum] as! String)
     }
 
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
