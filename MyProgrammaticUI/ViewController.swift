@@ -112,7 +112,7 @@ class ViewController: UIViewController {
             let sum = (num1!) + (num2!)
             self.sumLabel.text = String(sum)
         } else {
-            self.sumLabel.text = "Integers only baby girl"
+            self.sumLabel.text = "Integers only"
         }
         
     }
@@ -148,7 +148,7 @@ class ViewController: UIViewController {
             view.transform = CGAffineTransform(scaleX: sender.scale, y: sender.scale)
         }
         
-        sender.scale = 1
+        //sender.scale = 1
     }
     
     func handleTap(sender: UIPanGestureRecognizer){
