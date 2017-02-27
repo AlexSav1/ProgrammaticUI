@@ -241,6 +241,7 @@ class ViewController: UIViewController {
             self.sound = NSDataAsset(name: "falcoyell")
         }
         
+
         if(sender.state == .began){
         
         do {
@@ -254,6 +255,7 @@ class ViewController: UIViewController {
             print("error: \(error.localizedDescription)")
         }
         }
+        
     }
     
     func handlePan(sender: UIPanGestureRecognizer){
